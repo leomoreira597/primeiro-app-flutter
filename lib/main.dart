@@ -32,16 +32,23 @@ class _PerguntaAppState extends State<PerguntaApp> {
     {
       'texto': 'Qual seu instrutor favorito?',
       'respostas': [
-    {'texto':'Maria', 'nota': 10},
-    {'texto':'João', 'nota': 1},
-    {'texto':'Léo', 'nota': 1},
-    {'texto':'Pedro', 'nota': 10},
+        {'texto': 'Maria', 'nota': 10},
+        {'texto': 'João', 'nota': 1},
+        {'texto': 'Léo', 'nota': 1},
+        {'texto': 'Pedro', 'nota': 10},
       ]
     }
   ];
 
   bool get temPerguntaSelecionada {
     return _perguntaSelecionada < _perguntas.length;
+  }
+
+  void _reiniciarQuestionario() {
+    setState(() {
+      _perguntaSelecionada = 0;
+      _pontuacaoTotal = 0;
+    });
   }
 
   void _responder(int pontuacao) {
@@ -51,8 +58,6 @@ class _PerguntaAppState extends State<PerguntaApp> {
         _pontuacaoTotal += pontuacao;
       });
     }
-
-    print(_pontuacaoTotal);
   }
 
   @override
@@ -63,16 +68,17 @@ class _PerguntaAppState extends State<PerguntaApp> {
 
     return MaterialApp(
       home: Scaffold(
-          appBar: AppBar(
-            title: Text("Perguntas"),
-          ),
-          body: temPerguntaSelecionada
-              ? Questionario(
-                  perguntas: _perguntas,
-                  perguntaSelecionada: _perguntaSelecionada,
-                  responder: _responder,
-                )
-              : Resultado(_pontuacaoTotal)),
+        appBar: AppBar(
+          title: Text("Perguntas"),
+        ),
+        body: temPerguntaSelecionada
+            ? Questionario(
+                perguntas: _perguntas,
+                perguntaSelecionada: _perguntaSelecionada,
+                responder: _responder,
+              )
+            : Resultado(_pontuacaoTotal, _reiniciarQuestionario),
+      ),
     );
   }
 }

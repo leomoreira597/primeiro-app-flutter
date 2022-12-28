@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:primeiroapp/botaoGenerico.dart';
 
 class Resultado extends StatelessWidget {
   final int pontuacao;
+  final void Function() quandoreiniciarQuestionario;
 
-  Resultado(this.pontuacao);
+  Resultado(this.pontuacao, this.quandoreiniciarQuestionario);
 
   String get fraseResultado{
     if(pontuacao < 8){
@@ -23,11 +25,17 @@ class Resultado extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text(
-          fraseResultado,
-          style: TextStyle(fontSize: 28),
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Text(
+              fraseResultado,
+              style: TextStyle(fontSize: 28),
+            ),
+          ),
+          BotaoGenerico('Reiniciar', quandoreiniciarQuestionario)
+        ],
       ),
     );
   }
